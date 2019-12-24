@@ -1,0 +1,184 @@
+.floor,
+.tree {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+}
+
+.floor {
+  background-color: var(--bg2);
+  width: 20rem;
+  height: 4rem;
+  border-radius: 50%;
+  transform: translate(-50%, 5rem);
+  box-shadow: -2px 2px 0 var(--bg1);
+}
+
+.tree {
+  transform: translate(-50%, -6rem) scale(1.2);
+  text-align: center;
+  width: 15rem;
+
+  // Speed
+  .radio[value="slow"]:checked ~ & {
+    .toggle {
+        animation: slow var(--speed) alternate infinite ease-in-out;
+        animation-delay: -1s;
+        
+        &::after {
+          animation: slowBtn var(--speed) alternate infinite ease-in-out;
+          animation-delay: -1s;
+        }
+    }
+  }
+   
+  .radio[value="steady"]:checked ~ & {
+    .toggle {
+        background-color: var(--light);
+        
+        &:after {
+          background-color: rgba(255,255,255, 0.5);
+          transform: translateX(calc(var(--width) - var(--height)));
+        }
+    }
+  }
+  
+  .radio[value="half"]:checked ~ & {
+    .toggle {
+        animation: slow var(--speed) alternate infinite ease-in-out;
+        
+        &::after {
+          animation: slowBtn var(--speed) alternate infinite ease-in-out;
+        }
+        
+        &.secondary {
+          animation-delay: var(--speedInvert);
+          
+          &::after {
+              animation-delay: var(--speedInvert);
+          }
+        }
+    }
+  }
+  
+  .radio[value="frenetic"]:checked ~ & {
+    .toggle {
+        animation: frenetic 2s alternate infinite ease-in-out;
+        
+        &::after {
+          animation: freneticBtn 2s alternate infinite ease-in-out;
+        }
+        
+        &.secondary {
+          animation-delay: -1s;
+          
+          &::after {
+              animation-delay: -1s;
+          }
+        }
+    }
+  }
+}
+
+
+.toggle {
+  display: inline-block;
+  position: relative;
+  height: var(--height);
+  width: var(--width);
+  border-radius: 30px;
+  margin: 0.1rem;
+  box-shadow: -2px 2px 0 var(--bg1);
+  
+  &.one { --width: 1rem; }
+  &.two { --width: 2.2rem; }
+  &.three { --width: 3.4rem; }
+  &.four { --width: 4.6rem; }
+  
+  &.secondary {
+    --light: var(--light-secondary);
+  }
+  
+  &.rotate {
+    transform: scale(-1);
+    box-shadow: 2px -2px 0 var(--bg1);
+  }
+
+  &::after {
+    content: '';
+    width: var(--height);
+    height: var(--height);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 2px solid;
+    border-radius: 50px;
+    background: rgba(white, 0.7);
+    color: var(--light);
+  }
+}
+
+
+// Lights Pattern
+@keyframes slow {
+  0%, 25% {
+    background-color: rgba(0,0,0, 0.5);
+  }
+  75%, 100% {
+    background-color: #e45244; // fallback
+    background-color: var(--light);
+  }
+}
+
+@keyframes slowBtn {
+  0%, 25% {
+    background-color: rgba(0,0,0, 0.5);
+    opacity: 0.5;
+    transform: translate3d(0, 0, 0);
+  }
+  75%, 100% {
+    opacity: 1;
+    background-color: rgb(252,136,113);
+    background-color: rgba(255,255,255, 0.5);
+    transform: translate3d(calc(var(--width) - var(--height)), 0, 0);
+  }
+}
+
+@keyframes frenetic {
+  0%, 15%, 65%, 90% {
+    background-color: rgba(0,0,0, 0.5);
+  }
+  1%, 20%, 75%, 100% {
+    background-color: var(--light);
+  }
+}
+
+@keyframes freneticBtn {
+  0%, 15%, 65%, 90% {
+    background-color: rgba(0,0,0, 0.5);
+    opacity: 0.5;
+    transform: translate3d(0, 0, 0);
+  }
+  1%, 20%, 75%, 100% {
+    opacity: 1;
+    background-color: rgba(255,255,255, 0.5);
+    transform: translate3d(calc(var(--width) - var(--height)), 0, 0);
+  }
+}
+
+
+// Disabled for now...
+@keyframes shake {
+  10%, 90% { transform: translate3d(-0.1rem, 0, 0); }
+  20%, 80% { transform: translate3d(0.2rem, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-0.4rem, 0, 0); }
+  40%, 60% { transform: translate3d(0.4rem, 0, 0); }
+}
+
+@keyframes shakeInvert {
+  10%, 90% { transform: translate3d(0.1rem, 0, 0); }
+  20%, 80% { transform: translate3d(-0.2rem, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(0.4rem, 0, 0); }
+  40%, 60% { transform: translate3d(-0.4rem, 0, 0); }
+}
+

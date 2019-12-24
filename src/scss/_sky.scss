@@ -1,0 +1,182 @@
+.bg {
+  position: fixed;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-image: linear-gradient(rgb(31, 29, 59), rgb(58, 53, 118)); // fallback
+  background-image: linear-gradient(var(--bg1), var(--bg2));
+}
+
+.radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+.moon {
+  top: 50%;
+  left: 50%;
+  width: 4rem;
+  height: 4rem;
+  position: absolute;
+  background-color: rgb(234, 201, 188); // fallback
+  background-color: var(--moon);
+  transform: translate(4rem, -15rem);
+  border-radius: 50%;
+}
+
+.cloud {
+  top: 50%;
+  left: 50vw;
+  transform: translate(-7em, -5rem);
+  width: 5rem;
+  box-shadow: 2px -2px 0 inset var(--bg1);
+  --cloudX: -7rem;
+  --cloudY: -5rem; 
+  
+  @supports ((--a: 0)) {
+    animation: cloudMove $cloudSpeed alternate infinite linear;
+  }
+   
+  &,
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    height: 0.5rem;
+    background: rgb(58, 53, 118); // fallback
+    background: var(--bg2);
+    border-radius: var(--height);
+  }
+
+  &::before {
+    top: -0.4rem;
+    left: 2rem;
+    width: 4rem;
+  }
+
+  &::after {
+    width: 2rem;
+    top: -0.8rem;
+    left: 2.5rem;
+  }
+  
+  &.b {
+    animation-name: cloudMoveInvert;
+    transform: translate(5rem, -9rem);
+    width: 5rem;
+    --cloudX: 5rem;
+    --cloudY: -9rem;
+    
+    &::before {
+        left: -1rem;
+        width: 4rem;
+    }
+    
+    &::after {
+        width: 0rem;
+    }
+  }
+  
+  &.c {
+    transform: translate(-2rem, -13rem);
+    width: 8rem;
+    --cloudX: -2rem;
+    --cloudY: -13rem;
+    
+    &::before {
+        left: 3rem;
+        width: 4rem;
+    }
+    
+    &::after {
+        top: -1.2rem;
+        left: 4rem;
+        width: 1.5rem;
+    }
+  }
+}
+
+@keyframes cloudMove {
+  from { transform: translate(var(--cloudX), var(--cloudY)); }
+  to { transform: translate(calc(var(--cloudX) + 5rem), var(--cloudY)); }
+}
+
+@keyframes cloudMoveInvert {
+  from { transform: translate(var(--cloudX), var(--cloudY)); }
+  to { transform: translate(calc(var(--cloudX) - 7rem), var(--cloudY)); }
+}
+
+.snow {
+  position: fixed;
+  top: 0; left: 0;
+  transform: rotate(-10deg) translate(-10vw);
+  display: none;
+
+  .radio[value="letItSnow"]:checked ~ & {
+    display: block;
+    
+    @media (max-width: 38rem) {
+        //display: none;
+    }
+  }
+}
+
+.flake {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: fall $snowSpeed+s infinite linear;
+  
+  transform: scale(3);
+  transform-origin: 0 0;
+  
+  &:nth-child(even) {
+    width: 3px;
+    height: 3px;
+    opacity: 0.9;
+  }
+
+  @for $i from 1 through 50 {
+    &:nth-child(#{$i}) {
+        left: random(100) + -10 * 1vw;
+        top: 0;
+        animation-delay: (random($snowSpeed))*-1s;
+        animation-duration: (random(6) + $snowSpeed)*1s;
+    }
+  }
+  
+  .snow.front & {
+    width: 4px;
+    height: 4px;
+    box-shadow: 0 0 2px 2px white;
+
+    @for $i from 1 through 15 {
+        &:nth-child(#{$i}) {
+          left: random(100) + -10 * 1vw;
+          top: 0;
+          animation-delay: (random($snowSpeed))*-1s;
+          animation-duration: (random(7) + $snowSpeed)*0.5s;
+        }
+    }
+  }
+}
+
+@keyframes fall {
+  from {
+    transform: scale(3) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(3) translate3d(0, 110vh, 0);
+  }
+}
+
